@@ -5,6 +5,7 @@ import CadastroUsuario from './CadastroUsuario'; //sem default no CadastroUsuari
 import AtualizaUsuario from './AtualizaUsuario';
 import TenhoConta from './TenhoConta';
 import Login from './Login';
+import List from './List'; //não precisa de chaves pq é default -> depende da exportação
 
 const Stack = createStackNavigator();
 

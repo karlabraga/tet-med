@@ -7,10 +7,10 @@ const TenhoConta = ({ navigation }) => {
 
 const verificarLogin = ()=>{
    console.log("Verificando Login")
-   var userObj = {email: email, senha: senha }; 
+   var userObj = {email: email, senha: senha}; 
    var jsonBody = JSON.stringify(userObj);
 
-  fetch('https://tet-karla.glitch.me/login', { //fazedno requisição para a rota do glitch
+  fetch('http://localhost:3000/login', { 
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -22,8 +22,9 @@ const verificarLogin = ()=>{
       .then(response => response.json()) // a resposta responde em um json e dá uma resposta no log
       .then(json => {
           console.log(json);
+          console.log(json.id);
           if(json.mensagem=='Usuário válido'){
-          navigation.navigate('AtualizaUsuario', {id:json.id});
+          navigation.navigate('AtualizaUsuario', {id:json.id}); //acho que o problema esta aqui
 
           }
           
@@ -51,7 +52,7 @@ const verificarLogin = ()=>{
         <TextInput
             style={styles.button}
             onChangeText={(event) => setSenha(event)}
-            placeholder="Senha"
+            placeholder="senha"
             keyboardType="numeric"
         />
     

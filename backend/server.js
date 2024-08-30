@@ -12,10 +12,11 @@ app.use(express.json());
 const db = {   //isso é uma constante db -> que é um objeto em js que armazena informações de configurações a um banco de dados
   host: "54.173.126.116", // ip de onde o banco de dados está hospedado 
   port: 3306, //qual porta o servidor mysql está escutando
-  user: "00000000000", //define o nome do usuário para autenticação com o bd
-  password: "00000000000", //a senha associada ao usuário
-  database: "00000000000", //indica o nome do banco de dados que desejo acessar
+  user: "tet-med+", //define o nome do usuário para autenticação com o bd
+  password: "med+123", //a senha associada ao usuário
+  database: "tet-med+", //indica o nome do banco de dados que desejo acessar
 };
+
 
 const execSQLQuery = (sqlQry, id, res) => { //execSQLQuery -> exemplo de como executar consultas SQL no banco de dados, essa função está recebendo três valores: sqlQry -> consulta sql que quero execultar, id -> id usado para fazer a consulta, res -> objeto de resposta http que será usado para enviar os resultados da pesquisa
   const connection = mysql.createConnection(db); //aqui está sendo criado uma conexão com o banco de dados, passando como paramentro os dados dentro da constante anterior chaamda db
@@ -45,37 +46,37 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.get("/usuarios", (req, res) => {
+app.get("/cuidador", (req, res) => {
   const id = []; //criando uma variável id e criando um array vazio
-  execSQLQuery("SELECT * FROM usuario", id, res); //chamando a função que foi definida antes, passando o que quero consultar
+  execSQLQuery("SELECT * FROM Cuidador", id, res); //chamando a função que foi definida antes, passando o que quero consultar
 });
 
-app.get('/usuarios/:id', (req, res) => {
+app.get('/cuidador/:id', (req, res) => {
   const id =[req.params.id];
-  execSQLQuery ('SELECT * FROM usuario WHERE usu_id=?', id, res);
+  execSQLQuery ('SELECT * FROM Cuidador WHERE idCuidador=?', id, res);
 })
 
 app.put('/atualiza/:id', (req, res) => {
    const id = [req.body.nome, req.body.email, req.body.senha, req.params.id];
-  execSQLQuery('UPDATE usuario SET usu_nome=?, usu_email=?, usu_senha=? WHERE usu_id=?', id, res)
+  execSQLQuery('UPDATE Cuidador SET Nome=?, Email=?, Senha=? WHERE idCuidador=?', id, res)
 })
 
 app.delete('/delete/:id', (req, res) => {
   const id = [req.params.id];
-  execSQLQuery('DELETE FROM usuario WHERE usu_id=?', id, res)
+  execSQLQuery('DELETE FROM Cuidador WHERE idCuidador=?', id, res)
 })
 
-app.post("/usuarios", (req, res) => {
-  const id = [req.body.nome, req.body.email, req.body.senha];
-  execSQLQuery("INSERT INTO usuario VALUES (null, ?, ?, ?)", id, res);
+app.post("/cuidador", (req, res) => {
+  const id = [req.body.email, req.body.nome, req.body.senha];
+  execSQLQuery("INSERT INTO Cuidador VALUES (null, ?, ?, ?)", id, res);
 });
 
 app.post('/login', async (req,res) => {
     const id = [req.body.email, req.body.senha];
-    let [result] = await resultSQLQuery('SELECT * FROM usuario WHERE usu_email=? and usu_senha=?',id);
+    let [result] = await resultSQLQuery('SELECT * FROM Cuidador WHERE Email=? and Senha=?',id);
     console.log(result)
     if(result)
-        res.json({"id": result.usu_id, "mensagem":"Usuário válido"})
+        res.json({"id": result.idCuidador, "mensagem":"Usuário válido"})
       
     else{
         res.json({"mensagem":"Usuário Inválido"})

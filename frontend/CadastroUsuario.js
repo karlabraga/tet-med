@@ -6,7 +6,6 @@ const CadastroUsuario = ({ navigation }) => {
   const [nome, setNome] = useState(''); //são constantes do tipo useState -> tá usando pra pegar os dados que foram digitados pelos usuarios, funciona como um objeto tendo metodo get e set
   const [email, setEmail] = useState(''); //[get, set] o get não precisa escrever get só o set que precisa
   const [senha, setSenha] = useState(''); //o construtor ('') inicializa sem nada
-  const [data, setData] = useState('');
 
  const Cadastrar = () => {
     if(!nome || !email || !senha) {
@@ -17,7 +16,7 @@ const CadastroUsuario = ({ navigation }) => {
     var userObj = { nome: nome, email: email, senha: senha };
     var jsonBody = JSON.stringify(userObj);
     console.log(jsonBody);
-    fetch('https://tet-karla.glitch.me/usuarios', {
+    fetch('http://localhost:3000/cuidador', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,13 +60,13 @@ const CadastroUsuario = ({ navigation }) => {
            style={styles.button}
             onChangeText={(event) => setEmail(event)}
             placeholder="E-mail"
-            keyboardType="email"
+            keyboardType="Email"
             
         />
         <br/>
          
       <TouchableOpacity style={styles.cadastro}>
-        <Text  onPress={Cadastrar}>
+        <Text onPress={Cadastrar}>
           Cadastrar{' '}
         </Text>
       </TouchableOpacity>
@@ -112,10 +111,6 @@ const styles = StyleSheet.create({
       margin: 8,
       padding: 5,
       textAlign:'center',
-        
-     
-
-     
     },
 });
 

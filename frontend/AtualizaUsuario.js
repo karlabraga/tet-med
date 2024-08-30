@@ -2,87 +2,84 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Pressable, Text } from 'react-native';
 
 const AtualizaUsuario = ({ navigation, route }) =>  {
-  const {id} = route.params;
+
+  const { id } = route.params;
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
   useEffect(() => {
-  async function fetchItem() {
-    fetch('https://tet-karla.glitch.me/usuarios/' + id,{
-    headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(res => res.json())
-    .then(resJson => {
-    console.log(resJson);
-    setNome(resJson[0].usu_nome);
-    setEmail(resJson[0].usu_email);
-    })
-    .catch(e => console.log(e));
+    async function fetchItem() {
+      fetch('http://localhost:3000/cuidador/' + id, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((resJson) => {
+          console.log(resJson);
+          setNome(resJson[0].Nome);
+          setEmail(resJson[0].Email);
+        })
+        .catch((e) => console.log(e));
     }
     fetchItem();
   }, []);
 
-
-  const Atualizar = () =>{
-    console.log("Usuário atualizado")
+  const Atualizar = () => {
+    console.log('Usuário atualizado');
     if (!nome || !email || !senha) {
-        console.log("Campos Vazios");
-        return;
+      console.log('Campos Vazios');
+      return;
     }
-    var userObj = {nome:nome, email:email, senha:senha};
+    var userObj = { nome: nome, email: email, senha: senha };
     var jsonBody = JSON.stringify(userObj);
     console.log(jsonBody);
-    fetch('https://tet-karla.glitch.me/atualiza/' +id, {
-    method: 'PUT',
-    headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-    },
-    body: jsonBody,
+    fetch('http://localhost:3000/atualiza/' + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: jsonBody,
     })
-    .then(response => response.json())
-    .then(json => {
-    console.log(json);
-    navigation.goBack();
-    })
-  .catch((err) => {
-  console.log(err);
-  });
-}
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        navigation.goBack();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-const Deletar = () =>{
-    console.log("Usuário deletado")
+  const Deletar = () => {
+    console.log('Usuário deletado');
 
     if (!nome || !email || !senha) {
-        console.log("Campos Vazios");
-        return;
+      console.log('Campos Vazios');
+      return;
     }
-  var userObj = {nome:nome, email:email, senha:senha};
-  var jsonBody = JSON.stringify(userObj);
-  console.log(jsonBody);
-  fetch('https://tet-karla.glitch.me/delete/' +id, {
-
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: jsonBody,
-    }
-  )
-  .then(response => response.json())
-  .then(json => {
-    console.log(json);
-    navigation.goBack();
-  })
-  .catch((err) => { 
-    console.log(err);
-    }
-  );
-}
+    var userObj = { nome: nome, email: email, senha: senha };
+    var jsonBody = JSON.stringify(userObj);
+    console.log(jsonBody);
+    fetch('http://localhost:3000/delete/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: jsonBody,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        navigation.goBack();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <SafeAreaView  style={styles.view}>
@@ -112,7 +109,7 @@ const Deletar = () =>{
               onChangeText={(event) => setEmail(event)}
               placeholder="E-mail"
               value={email}
-              keyboardType="email"
+              keyboardType="Email"
           />
 
         <SafeAreaView style={styles.container}>
@@ -124,9 +121,6 @@ const Deletar = () =>{
             <Text style={styles.cadastro}>Deletar</Text>
           </TouchableOpacity>
       </SafeAreaView>
-
-
-
 
     </SafeAreaView>
   );
